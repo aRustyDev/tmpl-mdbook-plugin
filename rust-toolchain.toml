@@ -1,0 +1,8 @@
+# Rust toolchain configuration
+# https://rust-lang.github.io/rustup/overrides.html
+
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy"]
+# Uncomment for cross-compilation targets:
+# targets = ["x86_64-unknown-linux-gnu", "aarch64-unknown-linux-gnu"]

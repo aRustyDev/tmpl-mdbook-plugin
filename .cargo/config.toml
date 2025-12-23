@@ -1,0 +1,34 @@
+# Cargo configuration
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+# Uncomment for faster incremental builds:
+# incremental = true
+
+[target.x86_64-unknown-linux-gnu]
+# Use mold linker if available (faster linking)
+# linker = "clang"
+# rustflags = ["-C", "link-arg=-fuse-ld=mold"]
+
+[target.x86_64-apple-darwin]
+# Use lld linker on macOS if available
+# rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[registries.crates-io]
+protocol = "sparse"
+
+[net]
+git-fetch-with-cli = true
+
+[alias]
+# Common aliases
+b = "build"
+c = "check"
+t = "test"
+r = "run"
+br = "build --release"
+rr = "run --release"
+# Lint all
+lint = "clippy --all-targets --all-features -- -D warnings"
+# Documentation
+doc-open = "doc --open --no-deps"
