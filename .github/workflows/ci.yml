@@ -92,7 +92,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install cargo-msrv
-        uses: taiki-e/install-action@cargo-msrv
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-msrv
 
       - name: Check MSRV
         run: cargo msrv verify

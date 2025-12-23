@@ -1,20 +1,27 @@
 //! Integration tests for the plugin.
 //!
 //! These tests verify the plugin works correctly with mdbook.
+//!
+//! INSTRUCTIONS: Update these tests after configuring your plugin:
+//! 1. Replace PLUGIN_NAME_UNDERSCORE with your underscored plugin name
+//! 2. Replace PluginPreprocessor with your preprocessor struct name
+//! 3. Replace "PLUGIN_NAME" with your plugin name string
 
 // TODO: Uncomment and update when crate name is configured
-// use mdbook_PLUGIN_NAME_UNDERSCORE::PluginPreprocessor;
 // use mdbook::preprocess::Preprocessor;
-
-#[test]
-fn test_placeholder() {
-    // TODO: Replace with actual integration tests
-    //
-    // Example:
-    // let preprocessor = PluginPreprocessor::new();
-    // assert_eq!(preprocessor.name(), "PLUGIN_NAME");
-    assert!(true);
-}
+// use mdbook_PLUGIN_NAME_UNDERSCORE::PluginPreprocessor;
+//
+// #[test]
+// fn test_preprocessor_name() {
+//     let preprocessor = PluginPreprocessor::new();
+//     assert_eq!(preprocessor.name(), "PLUGIN_NAME");
+// }
+//
+// #[test]
+// fn test_supports_html_renderer() {
+//     let preprocessor = PluginPreprocessor::new();
+//     assert!(preprocessor.supports_renderer("html"));
+// }
 
 // Example integration test structure:
 //
