@@ -5,6 +5,8 @@ on:
       - main
 jobs:
   run:
+    # Skip in template repo - only run in repos created from template
+    if: github.repository != 'aRustyDev/tmpl-mdbook-plugin'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
