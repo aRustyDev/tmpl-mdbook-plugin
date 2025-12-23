@@ -107,6 +107,87 @@ This template defaults to a **preprocessor**. For a **backend**:
 2. Use `RenderContext` instead of `PreprocessorContext`
 3. Write files to `ctx.destination` instead of returning modified book
 
+## Post-Creation Setup
+
+After creating a repo from this template, apply these GitHub configurations:
+
+### Repository Settings
+
+```bash
+gh api repos/OWNER/REPO --method PATCH \
+  -F web_commit_signoff_required=true \
+  -F allow_auto_merge=true \
+  -F allow_update_branch=true \
+  -F delete_branch_on_merge=true \
+  -F has_issues=true \
+  -F has_wiki=true \
+  -F has_projects=true
+```
+
+### Branch Rulesets
+
+```bash
+# Main branch protection (no deletion, linear history)
+gh api repos/OWNER/REPO/rulesets --method POST --input - <<'EOF'
+{
+  "name": "main-branch-protection",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {"ref_name": {"include": ["refs/heads/main"], "exclude": []}},
+  "rules": [
+    {"type": "deletion"},
+    {"type": "non_fast_forward"},
+    {"type": "required_linear_history"}
+  ]
+}
+EOF
+
+# PR reviews required
+gh api repos/OWNER/REPO/rulesets --method POST --input - <<'EOF'
+{
+  "name": "main-pr-reviews",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {"ref_name": {"include": ["refs/heads/main"], "exclude": []}},
+  "rules": [{
+    "type": "pull_request",
+    "parameters": {
+      "required_approving_review_count": 1,
+      "dismiss_stale_reviews_on_push": true,
+      "require_last_push_approval": true,
+      "required_review_thread_resolution": true
+    }
+  }],
+  "bypass_actors": [{"actor_id": 5, "actor_type": "RepositoryRole", "bypass_mode": "pull_request"}]
+}
+EOF
+```
+
+### Deployment Environments
+
+```bash
+# Release environment
+gh api repos/OWNER/REPO/environments/release --method PUT \
+  -F wait_timer=0 \
+  -F deployment_branch_policy='{"protected_branches":false,"custom_branch_policies":true}'
+gh api repos/OWNER/REPO/environments/release/deployment-branch-policies --method POST \
+  -f name="main" -f type="branch"
+
+# Crates.io environment (for publishing)
+gh api repos/OWNER/REPO/environments/crates-io --method PUT \
+  -F wait_timer=5 \
+  -F deployment_branch_policy='{"protected_branches":false,"custom_branch_policies":true}'
+gh api repos/OWNER/REPO/environments/crates-io/deployment-branch-policies --method POST \
+  -f name="main" -f type="branch"
+```
+
+### Gist Templates (if using aRustyDev ecosystem)
+
+```bash
+just apply-gist github_rulesets
+just apply-gist github_environments
+```
+
 ## Resources
 
 - [MDBook Preprocessor Docs](https://rust-lang.github.io/mdBook/for_developers/preprocessors.html)
