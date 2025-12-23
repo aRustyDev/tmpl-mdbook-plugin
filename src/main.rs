@@ -4,16 +4,12 @@
 
 use clap::{Parser, Subcommand};
 use mdbook::preprocess::{CmdPreprocessor, Preprocessor};
-// TODO: Replace with your crate name
-// use mdbook_PLUGIN_NAME_UNDERSCORE::PluginPreprocessor;
 use std::io;
 use std::process;
 
-mod config;
-mod error;
-mod preprocessor;
-
-use preprocessor::PluginPreprocessor;
+// Use the library crate - this crate name must match [lib].name in Cargo.toml
+// TODO: After renaming your plugin, update this import to match your crate name
+use mdbook_PLUGIN_NAME_UNDERSCORE::PluginPreprocessor;
 
 #[derive(Parser)]
 #[command(name = "mdbook-PLUGIN_NAME")]
