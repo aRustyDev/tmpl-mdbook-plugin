@@ -8,6 +8,8 @@ on:
 
 jobs:
   deploy:
+    # Skip in template repo - only run in repos created from template
+    if: github.repository != 'aRustyDev/tmpl-mdbook-plugin'
     runs-on: ubuntu-20.04
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
